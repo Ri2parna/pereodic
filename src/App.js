@@ -1,10 +1,22 @@
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
+  const [elements, setElements] = useState(() => []);
+  const [loading, setLoading] = useState(() => null);
+
+  useEffect(() => {
+    fetch("https://periodic-table-api.herokuapp.com")
+      .then((data) => data.json())
+      .then((item) => setElements(item))
+      .catch(() => console.log("There has been an error"))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div className="grid">
       <PrimaryContent />
-      <LayoutContent />
+      {!loading && <LayoutContent elements={elements} />}
     </div>
   );
 }
@@ -37,30 +49,25 @@ const PrimaryContent = () => {
   );
 };
 
-const LayoutContent = () => {
+const LayoutContent = ({ elements }) => {
   return (
     <div id="layout_content">
-      <Element />
-      <Element />
-      <Element />
+      {elements.map((el) => (
+        <Element key={el.atomicNumber} data={el} />
+      ))}
     </div>
   );
 };
 
-const Element = ({
-  el_name = "Hydrogen",
-  symbol = "H",
-  at_no = 1,
-  wt = 1.008,
-  el_type = "G",
-}) => {
+const Element = ({ data: element }) => {
+  // console.log(element);
   return (
     <div className="element">
-      <p className="atomic_number">{at_no}</p>
-      <h1>{symbol}</h1>
-      <p>{el_name}</p>
-      <p>{wt}</p>
-      <p className="element_type">{el_type}</p>
+      <p className="atomic_number">{element.atomicNumber}</p>
+      <h1>{element.symbol}</h1>
+      <p>{element.name}</p>
+      <p>{element.atomicMass.slice(0, 3)}</p>
+      <p className="element_type">{element.standardState[0]}</p>
     </div>
   );
 };

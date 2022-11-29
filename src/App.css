@@ -1,4 +1,3 @@
-
 :root {
   --background: #000000;
   --font-color: #ed802a;
@@ -19,7 +18,7 @@ div {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
 }
-git #primary_content {
+#primary_content {
   grid-column: 1/3;
 }
 #layout_content {
@@ -28,17 +27,18 @@ git #primary_content {
   display: grid;
   grid-template-columns: repeat(18, 1fr);
   grid-template-rows: repeat(9, 1fr);
+  background-color: var(--border);
 }
 
 #layout_content div {
   padding: 4%;
-  /* border: 0.1px var(--border) solid; */
-  outline: 1px var(--border) solid;
 }
 .element {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 1px;
+  background-color: var(--background);
 }
 
 .atomic_number {
